@@ -24,9 +24,9 @@ while true do
     puts "Did not recognize a number between 1-4. Sorry."
   end
 
-puts "Result is #{result}"
-puts "Would you like to perform another calculation? (Y/N)"
-rep_calc = gets.chomp.upcase
+  puts "Result is #{result}"
+  puts "Would you like to perform another calculation? (Y/N)"
+  rep_calc = gets.chomp.upcase
 
   until rep_calc == 'Y' || rep_calc == 'N'
     puts "Invalid input. Try again."
