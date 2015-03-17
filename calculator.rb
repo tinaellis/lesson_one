@@ -1,27 +1,27 @@
-
-def user_input(record)
-  puts "=> What's the first number?"
-  input = gets.chomp
-  puts "=> What's the second number?"
-  input = gets.chomp
-  puts "=> 1) add 2) subtract 3) multiply 4) divide"
-  input = gets.chomp
+def say(msg)
+  puts "=> #{msg}"
 end
 
-# def say(msg)
-#   puts "=> #{msg}"
-# end
-
 while true do
-  num1 = user_input("first")
-  num2 = user_input("second")
-  operator = user_input("third")
+  say "What's the first number?"
+  num1 = gets.chomp
 
-  result = case operator
-    when '1' then num1.to_i + num2.to_i
-    when '2' then num1.to_i - num2.to_i
-    when '3' then num1.to_i * num2.to_i
-    when '4' then num1.to_f / num2.to_f
+  say "What's the second number?"
+  num2 = gets.chomp
+
+  say "1) add 2) subtract 3) multiply 4) divide"
+  operator = gets.chomp
+
+  if operator == '1'
+    result = num1.to_i + num2.to_i
+  elsif operator == '2'
+    result = num1.to_i - num2.to_i
+  elsif operator == '3'
+    result = num1.to_i * num2.to_i
+  elsif operator == '4'
+    result = num1.to_f / num2.to_f
+  else
+    puts "Did not recognize a number between 1-4. Sorry."
   end
 
   puts "Result is #{result}"
@@ -35,8 +35,8 @@ while true do
   end
 
   if rep_calc == 'N'
-      break
+    break
   elsif rep_calc == 'Y'
-      true
+    true
   end
 end
