@@ -36,4 +36,4 @@ while true do
   end
 end
 
-puts "Good bye!"
+puts "Good bye for now!"
