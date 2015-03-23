@@ -15,15 +15,38 @@ def calculate_total
   #sum of cards
 end
 
-deck = {one: "1", two: "2", three: "3", four: "4", five: "5", size: "6", seven: "7", eight: "8", nine: "9",
-  ten: "10", jack: "10", queen: "10", king: "10", ace: "1"}
+suits = ['Heart', 'Diamond', 'Spade', 'Clubs']
+cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+deck = suits.product(cards)
+deck.shuffle!
 
+player_cards = []
+dealer_cards = []
 
 #game play
-#1. player and dealer are both dealt two cards to start the game
-#puts "#player_one and the dealer have been dealt two cards"
+puts "player and dealer are both dealt two cards to start the game"
 
-#deal two cards
+player_cards << deck.pop
+dealer_cards << deck.pop
+player_cards << deck.pop
+dealer_cards << deck.pop
+
+puts "player cards are #{player_cards}"
+puts "dealer cards are #{dealer_cards}"
+
+puts "Would you like to 1) hit or 2) stay"
+hit_or_stay = gets.chomp
+
+if hit_or_stay = 1
+  begin
+    player_cards << deck.pop
+    dealer_cards << deck.pop
+
+    puts "player cards are #{player_cards}"
+    puts "dealer cards are #{dealer_cards}"
+  end #until player_card == 21
+
+end
 #if calculate_total == 21
   #puts You won! Your sum was #calculat_total, would you like to play again?
   #end until "no"
