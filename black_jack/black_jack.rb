@@ -35,18 +35,23 @@ puts "player cards are #{player_cards}"
 puts "dealer cards are #{dealer_cards}"
 
 puts "Would you like to 1) hit or 2) stay"
-hit_or_stay = gets.chomp
+hit_or_stay = gets.chomp.to_i
 
-if hit_or_stay = 1
+if hit_or_stay == 1
   begin
     player_cards << deck.pop
     dealer_cards << deck.pop
 
     puts "player cards are #{player_cards}"
     puts "dealer cards are #{dealer_cards}"
-  end #until player_card == 21
 
+    puts "Would you like to 1) hit or 2) stay"
+    hit_or_stay = gets.chomp.to_i
+  end until hit_or_stay == 2
 end
+
+    # hit_or_stay == 1
+
 #if calculate_total == 21
   #puts You won! Your sum was #calculat_total, would you like to play again?
   #end until "no"
