@@ -1,6 +1,6 @@
-puts "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+-+-+ +-+-+-+-+"
-puts "|w|e|l|c|o|m|e| |t|o| |b|l|a|c|k| |j|a|c|k|"
-puts "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+-+-+ +-+-+-+-+"
+puts "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+-+-+-+-+-+-+"
+puts "|w|e|l|c|o|m|e| |t|o| |b|l|a|c|k|j|a|c|k|"
+puts "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+-+-+-+-+-+-+"
 puts " "
 
 def player_one
@@ -8,11 +8,26 @@ def player_one
   gets.chomp
 end
 
-def dealer
-end
+def calculate_total(cards) #[['heart','2'],['diamond','3']]
+  arr = cards.map{ |e| e[1] }
 
-def calculate_total
-  #sum of cards
+  total = 0
+  arr.each do |value|
+    if value == "A"
+      total += 11
+    elsif value.to_i == 0 # J, Q, K
+      total += 10
+    else
+      total += value.to_i # Face Value Cards
+    end
+  end
+
+  #correct for aces
+  arr.select{|e| e == "A"}.count.times do
+    total -= 10 if total > 21
+  end
+
+  total
 end
 
 suits = ['Heart', 'Diamond', 'Spade', 'Clubs']
@@ -23,61 +38,58 @@ deck.shuffle!
 player_cards = []
 dealer_cards = []
 
-#game play
-puts "player and dealer are both dealt two cards to start the game"
+dealer_total = calculate_total(dealer_cards)
+player_total = calculate_total(player_cards)
 
-player_cards << deck.pop
-dealer_cards << deck.pop
-player_cards << deck.pop
-dealer_cards << deck.pop
+player_name = player_one
 
-puts "player cards are #{player_cards}"
-puts "dealer cards are #{dealer_cards}"
+begin
+  puts "Welcome to Blackjack #{player_name}."
+  puts "#{player_name} and dealer are both dealt two cards to start the game."
 
-puts "Would you like to 1) hit or 2) stay"
-hit_or_stay = gets.chomp.to_i
+  player_cards << deck.pop
+  dealer_cards << deck.pop
+  player_cards << deck.pop
+  dealer_cards << deck.pop
 
-if hit_or_stay == 1
-  begin
-    player_cards << deck.pop
-    dealer_cards << deck.pop
+  puts "#{player_name}'s cards are #{player_cards}."
+  puts "The dealer's cards are #{dealer_cards}."
 
-    puts "player cards are #{player_cards}"
-    puts "dealer cards are #{dealer_cards}"
+  puts "#{player_name} would you like to 1) hit or 2) stay"
+  hit_or_stay = gets.chomp.to_i
 
-    puts "Would you like to 1) hit or 2) stay"
-    hit_or_stay = gets.chomp.to_i
-  end until hit_or_stay == 2
-end
+  if hit_or_stay == 1 #hit
+    begin
+      player_cards << deck.pop
+      puts "#{player_name}'s cards are #{player_cards}"
+      puts "#{player_name} Would you like to 1) hit or 2) stay"
+      hit_or_stay = gets.chomp.to_i
+    end until hit_or_stay == 2 || calculate_total(player_cards) > 21
+  end
 
-    # hit_or_stay == 1
+  if calculate_total(dealer_cards) < 17
+    begin
+      dealer_cards << deck.pop
+      puts "Dealer cards are #{dealer_cards}"
+    end until calculate_total(dealer_cards) >= 17
+  end
 
-#if calculate_total == 21
-  #puts You won! Your sum was #calculat_total, would you like to play again?
-  #end until "no"
+  puts "Calculating total...."
+  puts "#{player_name}'s cards are #{player_cards}."
+  puts "The dealer's cards are #{dealer_cards}."
 
-#if calculate_total > 21
-  #puts You lost. Your sum was #calculate_total, would you like to play again?
-  #end until no
+  puts "#{player_name}'s' total is #{calculate_total(player_cards)} and the dealer's total is #{calculate_total(dealer_cards)}"
 
-#if calculate_total < 21
-  #puts your sum is #calculate_total, would you like to hit or stay?
+  if calculate_total(dealer_cards) > 21
+    puts "#{player_one} won!"
+  elsif calculate_total(player_cards) > 21 || calculate_total(player_cards) < calculate_total(dealer_cards)
+    puts "House won."
+  elsif calculate_total(player_cards) > calculate_total(dealer_cards) || calculate_total(dealer_cards) < 21
+    puts "#{player_name} won!"
+  else
+    puts "#{player_one} won!"
+  end
 
-  #if hit deal another card
-  #if stay
-
-    #dealer is dealt two cards
-    #puts dealers card sum is
-    #if dealer card sum is =< 16
-      #deal another card
-    #if dealer card sum is =< 16
-      #deal another card
-    #if dealer card sum is =< 21
-      #if dealer_array < player array puts "Player_one won!"
-      #if dealer_array > player array puts "House won."
-      #if dealer card sum is == player array puts "It's a tie
-    #if dealer card sum is > 21 puts "Player_one won!"
-
-#Bonus: 1. Save the player's name, and use it throughout the app. 2. Ask the player if he
-#wants to play again, rather than just exiting. 3. Save not just the card value, but also the
-#suit. 4. Use multiple decks to prevent against card counting players.
+  puts "#{player_name}, would you like to play again? Y/N"
+  play_again = gets.chomp.downcase
+end until play_again == "n"
