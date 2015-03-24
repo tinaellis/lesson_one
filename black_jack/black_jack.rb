@@ -4,8 +4,12 @@ puts "+-+-+-+-+-+-+-+ +-+-+ +-+-+-+-+-+-+-+-+-+"
 puts " "
 
 def player_one
-  puts "Please enter your name:"
+  say "Please enter your name:"
   gets.chomp
+end
+
+def say(msg)
+  puts "=> #{msg}"
 end
 
 def calculate_total(cards) #[['heart','2'],['diamond','3']]
@@ -38,30 +42,28 @@ deck.shuffle!
 player_cards = []
 dealer_cards = []
 
-dealer_total = calculate_total(dealer_cards)
-player_total = calculate_total(player_cards)
-
 player_name = player_one
 
 begin
-  puts "Welcome to Blackjack #{player_name}."
-  puts "#{player_name} and dealer are both dealt two cards to start the game."
+  puts ""
+  puts "Welcome to Blackjack #{player_name}. You and the dealer are both dealt two cards to start the game."
 
   player_cards << deck.pop
   dealer_cards << deck.pop
   player_cards << deck.pop
   dealer_cards << deck.pop
 
-  puts "#{player_name}'s cards are #{player_cards}."
-  puts "The dealer's cards are #{dealer_cards}."
+  puts "#{player_name}'s cards are #{player_cards}, for a total of #{calculate_total(player_cards)}"
+  puts "The dealer's cards are #{dealer_cards}, for a total of #{calculate_total(dealer_cards)}"
+  puts ""
 
-  puts "#{player_name} would you like to 1) hit or 2) stay"
+  say "#{player_name} would you like to 1) hit or 2) stay"
   hit_or_stay = gets.chomp.to_i
 
   if hit_or_stay == 1 #hit
     begin
       player_cards << deck.pop
-      puts "#{player_name}'s cards are #{player_cards}"
+      puts "#{player_name}'s cards are #{player_cards}, for a total of #{calculate_total(player_cards)}"
       puts "#{player_name} Would you like to 1) hit or 2) stay"
       hit_or_stay = gets.chomp.to_i
     end until hit_or_stay == 2 || calculate_total(player_cards) > 21
@@ -70,26 +72,25 @@ begin
   if calculate_total(dealer_cards) < 17
     begin
       dealer_cards << deck.pop
-      puts "Dealer cards are #{dealer_cards}"
+      puts "The dealer takes a card."
     end until calculate_total(dealer_cards) >= 17
   end
 
-  puts "Calculating total...."
-  puts "#{player_name}'s cards are #{player_cards}."
-  puts "The dealer's cards are #{dealer_cards}."
-
-  puts "#{player_name}'s' total is #{calculate_total(player_cards)} and the dealer's total is #{calculate_total(dealer_cards)}"
+  puts "Comparing hands..."
+  puts "#{player_name}'s cards are #{player_cards}, for a total of #{calculate_total(player_cards)}"
+  puts "The dealer's cards are #{dealer_cards}, for a total of #{calculate_total(dealer_cards)}"
+  puts ""
 
   if calculate_total(dealer_cards) > 21
-    puts "#{player_one} won!"
+    puts "#{player_name} won!"
   elsif calculate_total(player_cards) > 21 || calculate_total(player_cards) < calculate_total(dealer_cards)
     puts "House won."
   elsif calculate_total(player_cards) > calculate_total(dealer_cards) || calculate_total(dealer_cards) < 21
     puts "#{player_name} won!"
   else
-    puts "#{player_one} won!"
+    puts "It's a tie!"
   end
 
-  puts "#{player_name}, would you like to play again? Y/N"
+  say "#{player_name}, would you like to play again? Y/N"
   play_again = gets.chomp.downcase
 end until play_again == "n"
