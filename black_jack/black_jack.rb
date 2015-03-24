@@ -39,13 +39,12 @@ cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 deck = suits.product(cards)
 deck.shuffle!
 
-player_cards = []
-dealer_cards = []
-
 player_name = player_one
 
 begin
-  puts ""
+  player_cards = []
+  dealer_cards = []
+  puts "-- START --"
   puts "Welcome to Blackjack #{player_name}. You and the dealer are both dealt two cards to start the game."
 
   player_cards << deck.pop
